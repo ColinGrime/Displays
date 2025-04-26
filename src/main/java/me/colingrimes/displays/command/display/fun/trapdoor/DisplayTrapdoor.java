@@ -81,16 +81,16 @@ public class DisplayTrapdoor implements Command<Displays>, Listener {
 		block.setType(Material.AIR);
 
 		// Animate the fake trapdoor.
-		BlockDisplay displayBlock = DisplayUtil.createBlock(block.getLocation(), temp.createBlockData(), trapDoor.isOpen() ? TRANSFORMATION_OPENED : TRANSFORMATION_CLOSED);
-		displayBlock.setInterpolationDelay(-1);
-		displayBlock.setInterpolationDuration(10);
+		BlockDisplay blockDisplay = DisplayUtil.createBlock(block.getLocation(), temp.createBlockData(), trapDoor.isOpen() ? TRANSFORMATION_OPENED : TRANSFORMATION_CLOSED);
+		blockDisplay.setInterpolationDelay(-1);
+		blockDisplay.setInterpolationDuration(10);
 		Scheduler.sync().runLater(() -> {
-			displayBlock.setTransformation(trapDoor.isOpen() ? TRANSFORMATION_CLOSED : TRANSFORMATION_OPENED);
+			blockDisplay.setTransformation(trapDoor.isOpen() ? TRANSFORMATION_CLOSED : TRANSFORMATION_OPENED);
 		}, 2L);
 
 		Scheduler.sync().runLater(() -> {
 			// Remove the fake trapdoor.
-			displayBlock.remove();
+			blockDisplay.remove();
 
 			// Place the real trapdoor back.
 			block.setType(temp);
