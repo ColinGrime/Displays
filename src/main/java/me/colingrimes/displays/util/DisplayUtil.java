@@ -49,6 +49,7 @@ public class DisplayUtil {
 	 *
 	 * @param location the location
 	 * @param block the block data
+	 * @param transformation the transformation
 	 * @return the created block display
 	 */
 	@Nonnull
@@ -58,6 +59,17 @@ public class DisplayUtil {
 			entity.setBlock(block);
 			entity.setTransformation(transformation);
 		});
+	}
+
+	/**
+	 * Creates an {@link Interaction} at the specified location.
+	 *
+	 * @param location the location
+	 * @return the created interaction
+	 */
+	@Nonnull
+	public static Interaction createInteraction(@Nonnull Location location) {
+		return createInteraction(location, 1, 1);
 	}
 
 	/**
