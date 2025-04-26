@@ -40,8 +40,7 @@ public class DisplayUtil {
 	 */
 	@Nonnull
 	public static BlockDisplay createBlock(@Nonnull Location location, @Nonnull BlockData block) {
-		Preconditions.checkArgument(location.getWorld() != null, "World is null.");
-		return location.getWorld().spawn(location, BlockDisplay.class, (entity) -> entity.setBlock(block));
+		return createBlock(location, block, Transformations.basic());
 	}
 
 	/**
