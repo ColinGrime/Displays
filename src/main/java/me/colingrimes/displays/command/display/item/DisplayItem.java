@@ -1,4 +1,4 @@
-package me.colingrimes.displays.command.display.test;
+package me.colingrimes.displays.command.display.item;
 
 import me.colingrimes.displays.Displays;
 import me.colingrimes.displays.util.DisplayUtil;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DisplayTest implements Command<Displays> {
+public class DisplayItem implements Command<Displays> {
 
 	@Override
 	public void execute(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
@@ -28,7 +28,7 @@ public class DisplayTest implements Command<Displays> {
 			return;
 		}
 
-		Material material = Material.getMaterial(args.getOrDefault(0, "STONE"));
+		Material material = Material.getMaterial(args.getOrDefault(0, "DIAMOND"));
 		ItemDisplay.ItemDisplayTransform transform = Parser.parseNullable(ItemDisplay.ItemDisplayTransform.class, args.getOrDefault(1, "FIXED"));
 		if (material == null || transform == null) {
 			return;
