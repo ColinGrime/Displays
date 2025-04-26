@@ -1,0 +1,59 @@
+package me.colingrimes.displays.command.display.test;
+
+import me.colingrimes.displays.Displays;
+import me.colingrimes.displays.util.DisplayUtil;
+import me.colingrimes.midnight.command.Command;
+import me.colingrimes.midnight.command.handler.util.ArgumentList;
+import me.colingrimes.midnight.command.handler.util.CommandProperties;
+import me.colingrimes.midnight.command.handler.util.Sender;
+import me.colingrimes.midnight.util.text.Parser;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
+import org.bukkit.util.RayTraceResult;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class DisplayTest implements Command<Displays> {
+
+	@Override
+	public void execute(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
+		Player player = sender.player();
+		RayTraceResult result = player.rayTraceBlocks(50);
+		if (result == null || result.getHitBlock() == null) {
+			return;
+		}
+
+		Material material = Material.getMaterial(args.getOrDefault(0, "STONE"));
+		ItemDisplay.ItemDisplayTransform transform = Parser.parseNullable(ItemDisplay.ItemDisplayTransform.class, args.getOrDefault(1, "FIXED"));
+		if (material == null || transform == null) {
+			return;
+		}
+
+		Location location = result.getHitBlock().getLocation();
+		location.setX(location.getBlockX() + 0.5);
+		location.setY(location.getBlockY() + 1.5);
+		location.setZ(location.getBlockZ() + 0.5);
+		DisplayUtil.createItem(location, material, transform);
+	}
+
+	@Nullable
+	@Override
+	public List<String> tabComplete(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
+		if (args.size() == 1) {
+			return Stream.of(Material.values()).filter(Material::isItem).map(Material::name).toList();
+		} else if (args.size() == 2) {
+			return Stream.of(ItemDisplay.ItemDisplayTransform.values()).map(ItemDisplay.ItemDisplayTransform::name).toList();
+		}
+		return null;
+	}
+
+	@Override
+	public void configureProperties(@Nonnull CommandProperties properties) {
+		properties.setPlayerRequired(true);
+	}
+}
