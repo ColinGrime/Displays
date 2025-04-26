@@ -35,17 +35,14 @@ public class DisplayItem implements Command<Displays> {
 		}
 
 		Location location = result.getHitBlock().getLocation();
-		location.setX(location.getBlockX() + 0.5);
-		location.setY(location.getBlockY() + 1.5);
-		location.setZ(location.getBlockZ() + 0.5);
-		DisplayUtil.createItem(location, material, transform);
+		DisplayUtil.createItem(location.clone().add(0.5, 1.5, 0.5), material, transform);
 	}
 
 	@Nullable
 	@Override
 	public List<String> tabComplete(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
 		if (args.size() == 1) {
-			return Stream.of(Material.values()).filter(Material::isItem).map(Material::name).toList();
+			return Stream.of(Material.values()).filter(m -> m.isItem() && m.name().contains(args.getFirst())).map(Material::name).toList();
 		} else if (args.size() == 2) {
 			return Stream.of(ItemDisplay.ItemDisplayTransform.values()).map(ItemDisplay.ItemDisplayTransform::name).toList();
 		}

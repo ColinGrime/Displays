@@ -39,7 +39,7 @@ public class DisplayBlock implements Command<Displays> {
 	@Override
 	public List<String> tabComplete(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
 		if (args.size() == 1) {
-			return Stream.of(Material.values()).filter(Material::isBlock).map(Material::name).toList();
+			return Stream.of(Material.values()).filter(m -> m.isBlock() && m.name().contains(args.getFirst())).map(Material::name).toList();
 		}
 		return null;
 	}
