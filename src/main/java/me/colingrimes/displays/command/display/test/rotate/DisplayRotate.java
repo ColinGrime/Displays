@@ -51,6 +51,12 @@ public class DisplayRotate implements Command<Displays> {
 		blockDisplay.setInterpolationDelay(-1);
 		blockDisplay.setInterpolationDuration(20);
 		Scheduler.sync().runLater(() -> blockDisplay.setTransformation(transformation), 2L);
+
+		// Remove block display & put back the block.
+		Scheduler.sync().runLater(() -> {
+			blockDisplay.remove();
+			block.setType(temp);
+		}, 22L);
 	}
 
 	@Nullable
