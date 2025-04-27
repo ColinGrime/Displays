@@ -10,6 +10,7 @@ import me.colingrimes.midnight.command.handler.util.Sender;
 import me.colingrimes.midnight.scheduler.Scheduler;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
@@ -44,10 +45,11 @@ public class DisplayRotate implements Command<Displays> {
 		};
 
 		Block block = result.getHitBlock();
-		Material temp = block.getType();
+		Material type = block.getType();
+		BlockData blockData = block.getBlockData();
 		block.setType(Material.AIR);
 
-		BlockDisplay blockDisplay = DisplayUtil.createBlock(block.getLocation(), temp.createBlockData());
+		BlockDisplay blockDisplay = DisplayUtil.createBlock(block.getLocation(), blockData);
 		blockDisplay.setInterpolationDelay(-1);
 		blockDisplay.setInterpolationDuration(20);
 		Scheduler.sync().runLater(() -> blockDisplay.setTransformation(transformation), 2L);
@@ -55,7 +57,8 @@ public class DisplayRotate implements Command<Displays> {
 		// Remove block display & put back the block.
 		Scheduler.sync().runLater(() -> {
 			blockDisplay.remove();
-			block.setType(temp);
+			block.setType(type);
+			block.setBlockData(blockData);
 		}, 22L);
 	}
 
