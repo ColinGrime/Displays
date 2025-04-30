@@ -20,9 +20,14 @@ public class DisplayAxis implements Command<Displays> {
 	@Override
 	public void execute(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
 		Block block = Utils.rayTraceBlock(sender.player());
-		if (block != null) {
-			renderAxes(block.getLocation());
+		if (block == null) {
+			return;
 		}
+
+		double x = block.getLocation().getX() + args.getDoubleOrDefault(0, 0);
+		double y = block.getLocation().getY() + args.getDoubleOrDefault(1, 0);
+		double z = block.getLocation().getZ() + args.getDoubleOrDefault(2, 0);
+		renderAxes(new Location(block.getLocation().getWorld(), x, y, z));
 	}
 
 	@Override
