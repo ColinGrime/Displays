@@ -2,6 +2,7 @@ package me.colingrimes.displays.command.display.item;
 
 import me.colingrimes.displays.Displays;
 import me.colingrimes.displays.util.DisplayUtil;
+import me.colingrimes.displays.util.Utils;
 import me.colingrimes.midnight.command.Command;
 import me.colingrimes.midnight.command.handler.util.ArgumentList;
 import me.colingrimes.midnight.command.handler.util.CommandProperties;
@@ -9,9 +10,8 @@ import me.colingrimes.midnight.command.handler.util.Sender;
 import me.colingrimes.midnight.util.text.Parser;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
-import org.bukkit.entity.Player;
-import org.bukkit.util.RayTraceResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,9 +22,8 @@ public class DisplayItem implements Command<Displays> {
 
 	@Override
 	public void execute(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
-		Player player = sender.player();
-		RayTraceResult result = player.rayTraceBlocks(50);
-		if (result == null || result.getHitBlock() == null) {
+		Block block = Utils.rayTraceBlock(sender.player());
+		if (block == null) {
 			return;
 		}
 
@@ -34,7 +33,7 @@ public class DisplayItem implements Command<Displays> {
 			return;
 		}
 
-		Location location = result.getHitBlock().getLocation();
+		Location location = block.getLocation();
 		DisplayUtil.createItem(location.clone().add(0.5, 1.5, 0.5), material, transform);
 	}
 

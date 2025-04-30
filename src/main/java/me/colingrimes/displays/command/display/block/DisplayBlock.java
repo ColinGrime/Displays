@@ -2,14 +2,14 @@ package me.colingrimes.displays.command.display.block;
 
 import me.colingrimes.displays.Displays;
 import me.colingrimes.displays.util.DisplayUtil;
+import me.colingrimes.displays.util.Utils;
 import me.colingrimes.midnight.command.Command;
 import me.colingrimes.midnight.command.handler.util.ArgumentList;
 import me.colingrimes.midnight.command.handler.util.CommandProperties;
 import me.colingrimes.midnight.command.handler.util.Sender;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.util.RayTraceResult;
+import org.bukkit.block.Block;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,9 +20,8 @@ public class DisplayBlock implements Command<Displays> {
 
 	@Override
 	public void execute(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
-		Player player = sender.player();
-		RayTraceResult result = player.rayTraceBlocks(50);
-		if (result == null || result.getHitBlock() == null) {
+		Block block = Utils.rayTraceBlock(sender.player());
+		if (block == null) {
 			return;
 		}
 
@@ -31,7 +30,7 @@ public class DisplayBlock implements Command<Displays> {
 			return;
 		}
 
-		Location location = result.getHitBlock().getLocation().clone().add(0, 1, 0);
+		Location location = block.getLocation().clone().add(0, 1, 0);
 		DisplayUtil.createBlock(location, material.createBlockData());
 	}
 

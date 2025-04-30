@@ -3,6 +3,7 @@ package me.colingrimes.displays.command.display.test.rotate;
 import me.colingrimes.displays.Displays;
 import me.colingrimes.displays.util.DisplayUtil;
 import me.colingrimes.displays.util.Transformations;
+import me.colingrimes.displays.util.Utils;
 import me.colingrimes.midnight.command.Command;
 import me.colingrimes.midnight.command.handler.util.ArgumentList;
 import me.colingrimes.midnight.command.handler.util.CommandProperties;
@@ -12,8 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.BlockDisplay;
-import org.bukkit.entity.Player;
-import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Transformation;
 
 import javax.annotation.Nonnull;
@@ -25,9 +24,8 @@ public class DisplayRotate implements Command<Displays> {
 
 	@Override
 	public void execute(@Nonnull Displays plugin, @Nonnull Sender sender, @Nonnull ArgumentList args) {
-		Player player = sender.player();
-		RayTraceResult result = player.rayTraceBlocks(50);
-		if (result == null || result.getHitBlock() == null) {
+		Block block = Utils.rayTraceBlock(sender.player());
+		if (block == null) {
 			return;
 		}
 
@@ -44,7 +42,6 @@ public class DisplayRotate implements Command<Displays> {
 			default -> null;
 		};
 
-		Block block = result.getHitBlock();
 		Material type = block.getType();
 		BlockData blockData = block.getBlockData();
 		block.setType(Material.AIR);

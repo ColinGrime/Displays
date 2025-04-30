@@ -12,7 +12,7 @@ import org.bukkit.util.Transformation;
 
 import javax.annotation.Nonnull;
 
-public class DisplayUtil {
+public final class DisplayUtil {
 
 	/**
 	 * Creates an {@link ItemDisplay} at the specified location.
@@ -87,5 +87,9 @@ public class DisplayUtil {
 			entity.setInteractionHeight(height);
 			entity.setResponsive(true);
 		});
+	}
+
+	private DisplayUtil() {
+		throw new UnsupportedOperationException("This class cannot be instantiated.");
 	}
 }
